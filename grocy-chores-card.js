@@ -70,8 +70,6 @@ customElements.whenDefined('card-tools').then(() => {
 
                 let doneToday = chore._last_tracked_time != null && now === chore._last_tracked_time.substr(0, 10);
                 let titleStyle = doneToday ? "text-decoration: line-through" : "";
-        
-                if(doneToday) return false;
 
                 return (
                 cardTools.LitHtml`
