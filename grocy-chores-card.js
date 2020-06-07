@@ -70,6 +70,8 @@ customElements.whenDefined('card-tools').then(() => {
 
                 let doneToday = chore._last_tracked_time != null && now === chore._last_tracked_time.substr(0, 10);
                 let titleStyle = doneToday ? "text-decoration: line-through" : "";
+        
+                if(doneToday) return false;
 
                 return (
                 cardTools.LitHtml`
@@ -79,7 +81,7 @@ customElements.whenDefined('card-tools').then(() => {
                     <div class="secondary">
                     ${this.config.custom_translation != null && this.config.custom_translation.due != null ? this.config.custom_translation.due : "Due"}: <span class="${chore._next_estimated_execution_time != null ? this.checkDueClass(chore.dueInDays) : ""}">${chore._next_estimated_execution_time != null ? this.formatDueDate(chore._next_estimated_execution_time, chore.dueInDays) : "-"}</span>
                     </div>
-                    <div class="secondary">${this.config.custom_translation != null && this.config.custom_translation.last_tracked != null ? this.config.custom_translation.last_tracked : "Last tracked"}: ${chore._last_tracked_time != null ? chore._last_tracked_time.substr(0, 10) : "-"} </div>
+                    ${chore._last_tracked_time != null ? <div class="secondary">${this.config.custom_translation != null && this.config.custom_translation.last_tracked != null ? this.config.custom_translation.last_tracked : "Last tracked"}: ${chore._last_tracked_time != null ? chore._last_tracked_time.substr(0, 10) : "-"} </div> : ""}
                   </div>
                   <div>
                     <mwc-button @click=${ev => this._track(chore._chore_id)}>${this.config.custom_translation != null && this.config.custom_translation.track != null ? this.config.custom_translation.track : "Track"}</mwc-button>
