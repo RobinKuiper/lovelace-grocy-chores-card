@@ -86,9 +86,9 @@ customElements.whenDefined('card-tools').then(() => {
                 <div class="info flex">
                   <div>
                     <span style=${titleStyle}>${chore._name}</span>
-                    ${chore._next_estimated_execution_time != null && cardTools.LitHtml`<div class="secondary">
+                    ${chore._next_estimated_execution_time != null ? cardTools.LitHtml`<div class="secondary">
                     ${this.config.custom_translation != null && this.config.custom_translation.due != null ? this.config.custom_translation.due : "Due"}: <span class="${chore._next_estimated_execution_time != null ? this.checkDueClass(chore.dueInDays) : ""}">${chore._next_estimated_execution_time != null ? this.formatDueDate(chore._next_estimated_execution_time, chore.dueInDays) : "-"}</span>
-                    </div>`}
+                    </div>` : ""}
                     ${chore._last_tracked_time != null ? cardTools.LitHtml`<div class="secondary">${this.config.custom_translation != null && this.config.custom_translation.last_tracked != null ? this.config.custom_translation.last_tracked : "Last tracked"}: ${chore._last_tracked_time != null ? chore._last_tracked_time.substr(0, 10) : "-"} </div>` : ""}
                   </div>
                   <div>
