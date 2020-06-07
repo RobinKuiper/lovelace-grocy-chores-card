@@ -60,7 +60,18 @@ customElements.whenDefined('card-tools').then(() => {
             </div>
             <div>
               ${this.chores.length > 0 ? cardTools.LitHtml`
-              ${this.chores.map(chore => {
+              ${this.chores.filter(chore => {
+                let now = new Date();
+                let month = ((now.getMonth()+1) < 10) ? "0"+(now.getMonth()+1) : (now.getMonth()+1);
+                let year = now.getFullYear();
+                let day = (now.getDate() < 10) ? "0"+now.getDate() : now.getDate();
+                now = year + "-" + month + "-" + day;
+
+                let doneToday = chore._last_tracked_time != null && now === chore._last_tracked_time.substr(0, 10);
+                let titleStyle = doneToday ? "text-decoration: line-through" : "";
+
+                return !doneToday;
+              }).map(chore => {
 
                 let now = new Date();
                 let month = ((now.getMonth()+1) < 10) ? "0"+(now.getMonth()+1) : (now.getMonth()+1);
