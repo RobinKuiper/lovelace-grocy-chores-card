@@ -68,7 +68,7 @@ customElements.whenDefined('card-tools').then(() => {
                 let day = (now.getDate() < 10) ? "0"+now.getDate() : now.getDate();
                 now = year + "-" + month + "-" + day;
 
-                let doneToday = now === chore._last_tracked_time.substr(0, 10);
+                let doneToday = chore._last_tracked_time != null && now === chore._last_tracked_time.substr(0, 10);
                 let titleStyle = doneToday ? "text-decoration: strikethrough" : "";
 
                 return (
