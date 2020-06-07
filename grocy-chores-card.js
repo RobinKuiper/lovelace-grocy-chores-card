@@ -60,11 +60,22 @@ customElements.whenDefined('card-tools').then(() => {
             </div>
             <div>
               ${this.chores.length > 0 ? cardTools.LitHtml`
-              ${this.chores.map(chore =>
+              ${this.chores.map(chore => {
+
+                let now = new Date();
+                let month = ((now.getMonth()+1) < 10) ? "0"+(now.getMonth()+1) : (now.getMonth()+1);
+                let year = now.getFullYear();
+                let day = (now.getDate() < 10) ? "0"+now.getDate() : now.getDate();
+                now = year + "-" + month + "-" + day;
+
+                let doneToday = now === chore._last_tracked_time.substr(0, 10);
+                let titleStyle = doneToday ? "text-decoration: strikethrough" : "";
+
+                return (
                 cardTools.LitHtml`
                 <div class="info flex">
                   <div>
-                    ${chore._name}
+                    <span style=${titleStyle}>${chore._name}</span>
                     <div class="secondary">
                     ${this.config.custom_translation != null && this.config.custom_translation.due != null ? this.config.custom_translation.due : "Due"}: <span class="${chore._next_estimated_execution_time != null ? this.checkDueClass(chore.dueInDays) : ""}">${chore._next_estimated_execution_time != null ? this.formatDueDate(chore._next_estimated_execution_time, chore.dueInDays) : "-"}</span>
                     </div>
@@ -76,7 +87,7 @@ customElements.whenDefined('card-tools').then(() => {
                 </div>
 
                 `
-              )}` : cardTools.LitHtml`<div class="info flex">${this.config.custom_translation != null && this.config.custom_translation.empty != null ? this.config.custom_translation.empty : "No chores!"}</div>`}
+              )})}` : cardTools.LitHtml`<div class="info flex">${this.config.custom_translation != null && this.config.custom_translation.empty != null ? this.config.custom_translation.empty : "No chores!"}</div>`}
             </div>
             ${this.notShowing.length > 0 ? cardTools.LitHtml`<div class="secondary">${this.config.custom_translation != null && this.config.custom_translation.more != null ? this.config.custom_translation.more.replace("{number}", this.notShowing.length) : "Look in Grocy for " + this.notShowing.length + " more chores..."}</div>`
             : ""}
